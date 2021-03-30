@@ -30,7 +30,7 @@ public class Menu {
         int contadorHechizo = 0;
         int contadorTrampa = 0;
 
-        //Leer el archivo
+        
 
 
         while(menuPrincipal){
@@ -49,7 +49,8 @@ public class Menu {
                     //Crea el Mapa de la opcion elegida
                     coleccionUsuario = factory.getInstance(opcion);
                     cartas = factory.getInstance(opcion);
-
+                    
+                    //Leer el archivo
                     try{
                         String file = "cards_desc.txt"; //busca el archivo llamado datos
                         String line;
