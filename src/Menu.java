@@ -1,12 +1,9 @@
 /*
 Andrea Lam, 20102
 Jun Woo Lee, 20358
-
 Main
-
 Fecha de creación: 19/03/21
 Modificación 1: 23/03/21
-
 Referencias: https://stackoverflow.com/questions/29061782/java-read-txt-file-to-hashmap-split-by/29062134
  */
 
@@ -24,14 +21,42 @@ public class Menu {
         Instance factory = new Instance();
         Scanner scan = new Scanner(System.in);
 
-        Map<String, String> cartas;
-        Map<String, String> coleccionUsuario;
+        HashMap<String, String> cartas = new HashMap<String, String>();
+        Map<String, String> coleccionUsuario ;
         boolean menuPrincipal = true;
         boolean menuSecundario2;
 
         int contadorMonstruo = 0;
         int contadorHechizo = 0;
         int contadorTrampa = 0;
+
+        //Leer el archivo
+        try{
+            String file = "cards_desc.txt"; //busca el archivo llamado datos
+            String line;
+            BufferedReader reader = new BufferedReader(new FileReader(file));
+
+            while ((line = reader.readLine()) != null)
+            {
+                String[] parts = line.split("\\|", 2);
+                if (parts.length >= 2)
+                {
+                    String key = parts[0];
+                    String value = parts[1];
+                    cartas.put(key, value);
+                } else {
+                    System.out.println("ignoring line: " + line);
+                }
+            }
+
+
+            reader.close();
+
+
+        }
+        catch (Exception e){
+            System.out.println("No se encontro el archivo");
+        }
 
 
         while(menuPrincipal){
@@ -49,35 +74,6 @@ public class Menu {
                 if(opcion >= 1 && opcion <= 3){
                     //Crea el Mapa de la opcion elegida
                     coleccionUsuario = factory.getInstance(opcion);
-                    cartas = factory.getInstance(opcion);
-
-                    //Leer el archivo
-                    try{
-                        String file = "cards_desc.txt"; //busca el archivo llamado datos
-                        String line;
-                        BufferedReader reader = new BufferedReader(new FileReader(file));
-
-                        while ((line = reader.readLine()) != null)
-                        {
-                            String[] parts = line.split("\\|", 2);
-                            if (parts.length >= 2)
-                            {
-                                String key = parts[0];
-                                String value = parts[1];
-                                cartas.put(key, value);
-                            } else {
-                                System.out.println("ignoring line: " + line);
-                            }
-                        }
-
-
-                        reader.close();
-
-
-                    }
-                    catch (Exception e){
-                        System.out.println("No se encontro el archivo");
-                    }
 
                     while(menuSecundario){
                         try{
@@ -207,7 +203,7 @@ public class Menu {
                                             case "Monstruo" :
                                                 contadorMonstruo++;
                                                 monstruos.add("Nombre: " + key + " | Tipo: " + coleccionUsuario.get(key));
-                                            break;
+                                                break;
                                             case "Hechizo":
                                                 contadorHechizo++;
                                                 hechizos.add("Nombre: " + key + " | Tipo: " + coleccionUsuario.get(key));
